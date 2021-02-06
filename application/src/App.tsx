@@ -17,6 +17,8 @@ import interactionPlugin from '@fullcalendar/interaction'
 
 function App() {
 
+  const [inMyCal, setMyCal ] = useState(true);
+
   const handleDateClick = (arg : any) => { // bind with an arrow function
     alert(arg.dateStr)
   }
@@ -31,12 +33,16 @@ function App() {
     <Typography variant="h6" style={{ marginLeft: 50 }}>
       Meet2Gether
     </Typography>
-    <Button color="inherit" style={{ marginLeft: 50 }}>My Calendar</Button>
-    <Button color="inherit" style={{ marginLeft: 50 }}>Team Calendar</Button>
+    <Button onClick={(e : any) => setMyCal(true)} color="inherit" style={{ marginLeft: 50 }}>My Calendar</Button>
+    <Button onClick={(e : any) => setMyCal(false)} color="inherit" style={{ marginLeft: 50 }}>Team Calendar</Button>
     <Button color="inherit" style={{ marginLeft: 800 }}>Login</Button>
   </Toolbar>
 </AppBar>
 <br></br>
+{ inMyCal ? (
+            <h2 className='title'>My Calendar</h2>
+
+            ) :<h2 className='title'>Team Calendar </h2>}
       <FullCalendar
         plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
         dateClick={handleDateClick}
