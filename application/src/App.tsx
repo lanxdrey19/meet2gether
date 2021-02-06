@@ -17,7 +17,8 @@ import interactionPlugin from '@fullcalendar/interaction'
 
 function App() {
 
-  const [inMyCal, setMyCal ] = useState(true);
+  const [myCal, setMyCal ] = useState(false);
+  const [loggedIn, setLoggedIn ] = useState(true);
 
   const handleDateClick = (arg : any) => { // bind with an arrow function
     alert(arg.dateStr)
@@ -35,15 +36,19 @@ function App() {
     </Typography>
     <Button onClick={(e : any) => setMyCal(true)} color="inherit" style={{ marginLeft: 50 }}>My Calendar</Button>
     <Button onClick={(e : any) => setMyCal(false)} color="inherit" style={{ marginLeft: 50 }}>Team Calendar</Button>
-    <Button color="inherit" style={{ marginLeft: 800 }}>Login</Button>
+    <Button onClick={(e : any) => setLoggedIn(true)} color="inherit" style={{ marginLeft: 800 }}>Logout</Button>
   </Toolbar>
 </AppBar>
-<br></br>
-{ inMyCal ? (
-            <h2 className='title'>My Calendar</h2>
 
-            ) :<h2 className='title'>Team Calendar </h2>}
-      <FullCalendar
+{ loggedIn ? (
+            
+            <h2 className='title'>Welcome Person</h2>
+            ) : <h2 className='title'>You must be logged in to view the content</h2>}
+
+{ myCal && loggedIn ? (
+  <div>
+      <h2 className='title'>My Calendar</h2>
+            <FullCalendar
         plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
         dateClick={handleDateClick}
         initialView="dayGridMonth"
@@ -52,8 +57,27 @@ function App() {
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         }}
-        
-      />
+
+        />
+        </div>
+
+            ) :  !myCal && loggedIn ? ( 
+              <div>
+              <h2 className='title'>Team Calendar</h2>
+            <FullCalendar
+            plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
+            dateClick={handleDateClick}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            }}
+            
+          />
+          </div>
+          ) : <h2 className='title'>:(</h2>}
+  
     </div>
   );
 
