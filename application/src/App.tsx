@@ -12,12 +12,26 @@ import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 //import { INITIAL_EVENTS, createEventId } from './event-utils'
 
 function App() {
 
   const [myCal, setMyCal ] = useState(false);
   const [loggedIn, setLoggedIn ] = useState(false);
+  const [isCreateAcc, setIsCreateAcc] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   const handleDateClick = (arg : any) => { // bind with an arrow function
     alert(arg.dateStr)
@@ -27,14 +41,29 @@ function App() {
     <div className="App">
       <AppBar position="static">
   <Toolbar style={{ background: '#5300AF' }}>
+  <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleClick} aria-haspopup="true" aria-controls="simple-menu" >
+      <MenuOutlinedIcon />
+    </IconButton>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>Change Name</MenuItem>
+        <MenuItem onClick={(e : any) => { setLoggedIn(false);handleClose(); }} >Logout</MenuItem>
+  
+      </Menu>
+    
     <Typography variant="h6" style={{ marginRight: "auto" }} >
       Meet2Gether
     </Typography>
     <Button onClick={(e : any) => setMyCal(true)} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>
     <Button onClick={(e : any) => setMyCal(false)} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>
     {loggedIn ? 
-    (<div><h4 style={{ margin: "auto" }} className='title'>Welcome User</h4><Button onClick={(e : any) => setLoggedIn(false)} color="inherit" style={{ margin: "auto" }}>Logout</Button></div>) : <div><h4 style={{ margin: "auto" }} className='title'>Please Log In</h4><Button onClick={(e : any) => setLoggedIn(true)} color="inherit" style={{ margin: "auto" }}>Login</Button></div> }
-  
+    (<div><h4 style={{ margin: "auto" }} className='title'>Welcome User</h4></div>) : <div><Button onClick={(e : any) => setLoggedIn(true)} color="inherit" style={{ margin: "auto" }}>Login</Button></div> }
+{!loggedIn ? (<Button onClick={(e : any) => setIsCreateAcc(true)} color="inherit" style={{ margin: "auto" }}>Create Account</Button>) : <></> }
   </Toolbar>
 </AppBar>
 
