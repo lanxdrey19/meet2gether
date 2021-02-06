@@ -35,10 +35,10 @@ export default function ChangeNameForm(props : any) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={(e:any) => { handleClose();props.handleClose();} } color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={(e:any) => { handleClose();props.handleClose();} } color="primary">
             Change
           </Button>
         </DialogActions>

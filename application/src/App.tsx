@@ -54,7 +54,7 @@ function App() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <ChangeNameForm onClick={handleClose}/>
+        <ChangeNameForm handleClose={handleClose}/>
         <MenuItem onClick={(e : any) => { setLoggedIn(false);handleClose(); }} >Logout</MenuItem>
   
       </Menu>
