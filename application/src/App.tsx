@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CreateAccount from './CreateAccount';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,7 +21,6 @@ function App() {
 
   const [myCal, setMyCal ] = useState(false);
   const [loggedIn, setLoggedIn ] = useState(false);
-  const [isCreateAcc, setIsCreateAcc] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -63,7 +63,6 @@ function App() {
     <Button onClick={(e : any) => setMyCal(false)} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>
     {loggedIn ? 
     (<div><h4 style={{ margin: "auto" }} className='title'>Welcome User</h4></div>) : <div><Button onClick={(e : any) => setLoggedIn(true)} color="inherit" style={{ margin: "auto" }}>Login</Button></div> }
-{!loggedIn ? (<Button onClick={(e : any) => setIsCreateAcc(true)} color="inherit" style={{ margin: "auto" }}>Create Account</Button>) : <></> }
   </Toolbar>
 </AppBar>
 
@@ -100,7 +99,7 @@ function App() {
             
           />
           </div>
-          ) : <h2 className='title'>You must be logged in to view the contents</h2>}
+          ) :<div> <h2 className='title'>You must be logged in to view the contents</h2><CreateAccount/></div>}
   
     </div>
   );
