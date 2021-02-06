@@ -24,19 +24,19 @@ function App() {
   return (
     <div className="App">
       <AppBar position="static">
-  <Toolbar>
+  <Toolbar style={{ background: '#5300AF' }}>
     <IconButton edge="start" color="inherit" aria-label="menu">
       <MenuOutlinedIcon />
     </IconButton>
-    <Typography variant="h6" >
+    <Typography variant="h6" style={{ marginLeft: 50 }}>
       Meet2Gether
     </Typography>
-    <Button color="inherit">My Calendar</Button>
-    <Button color="inherit">Team Calendar</Button>
-    <Button color="inherit">Login</Button>
+    <Button color="inherit" style={{ marginLeft: 50 }}>My Calendar</Button>
+    <Button color="inherit" style={{ marginLeft: 50 }}>Team Calendar</Button>
+    <Button color="inherit" style={{ marginLeft: 800 }}>Login</Button>
   </Toolbar>
 </AppBar>
-
+<br></br>
       <FullCalendar
         plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
         dateClick={handleDateClick}
