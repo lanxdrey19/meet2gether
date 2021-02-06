@@ -6,8 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import MenuItem from '@material-ui/core/MenuItem';
 
-export default function CreateAccount() {
+export default function ChangeNameForm(props : any) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -20,35 +21,16 @@ export default function CreateAccount() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Create Account
-      </Button>
+      <MenuItem onClick={handleClickOpen}>Change Name</MenuItem>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Create Account</DialogTitle>
+        <DialogTitle id="form-dialog-title">Change Display Name</DialogTitle>
         <DialogContent>
-        <TextField
-            autoFocus
-            margin="dense"
-            id="emailAddress"
-            label="Email Address"
-            type="email"
-            fullWidth
-          />
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Username"
+            label="New Name"
             type="name"
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="password"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
             fullWidth
           />
         </DialogContent>
@@ -57,7 +39,7 @@ export default function CreateAccount() {
             Cancel
           </Button>
           <Button onClick={handleClose} color="primary">
-            Create
+            Change
           </Button>
         </DialogActions>
       </Dialog>

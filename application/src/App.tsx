@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ChangeNameForm from './ChangeNameForm';
 import CreateAccount from './CreateAccount';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -41,9 +42,11 @@ function App() {
     <div className="App">
       <AppBar position="static">
   <Toolbar style={{ background: '#5300AF' }}>
-  <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleClick} aria-haspopup="true" aria-controls="simple-menu" >
-      <MenuOutlinedIcon />
-    </IconButton>
+    {!loggedIn ? 
+    
+    (<IconButton disabled edge="start" color="inherit" aria-label="menu" onClick={handleClick} aria-haspopup="true" aria-controls="simple-menu" ><MenuOutlinedIcon /></IconButton>) 
+    : 
+    <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleClick} aria-haspopup="true" aria-controls="simple-menu" ><MenuOutlinedIcon /></IconButton>}
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -51,7 +54,7 @@ function App() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Change Name</MenuItem>
+        <ChangeNameForm onClick={handleClose}/>
         <MenuItem onClick={(e : any) => { setLoggedIn(false);handleClose(); }} >Logout</MenuItem>
   
       </Menu>
