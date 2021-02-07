@@ -4,6 +4,7 @@ import './App.css';
 import ChangeNameForm from './ChangeNameForm';
 import CreateAccount from './CreateAccount';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,12 +14,29 @@ import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-//import { INITIAL_EVENTS, createEventId } from './event-utils'
+import { createEventId } from './EventId'
 
 function App() {
+
+  const handleDateSelect = (selectInfo : any) => {
+    let title = prompt('Please enter a new title for your event')
+    let calendarApi = selectInfo.view.calendar
+
+    calendarApi.unselect() // clear date selection
+
+    if (title) {
+      calendarApi.addEvent({
+        id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay
+      })
+    }
+  }
 
   const [myCal, setMyCal ] = useState(false);
   const [loggedIn, setLoggedIn ] = useState(false);
@@ -69,13 +87,20 @@ function App() {
   </Toolbar>
 </AppBar>
 
+
 { myCal && loggedIn ? (
   <div>
       <h2 className='title'>My Calendar</h2>
             <FullCalendar
             height="auto"
         plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
+        droppable={true}
+        editable={true}
+        selectable={true}
+        selectMirror={true}
+        dayMaxEvents={true}
         dateClick={handleDateClick}
+        select={handleDateSelect}
         initialView="dayGridMonth"
         headerToolbar={{
           left: 'prev,next today',
@@ -84,6 +109,8 @@ function App() {
         }}
 
         />
+        
+        
         </div>
 
             ) :  !myCal && loggedIn ? ( 
@@ -92,6 +119,9 @@ function App() {
             <FullCalendar
             height="auto"
             plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
+            droppable={true}
+            selectMirror={true}
+            dayMaxEvents={true}
             dateClick={handleDateClick}
             initialView="dayGridMonth"
             headerToolbar={{
