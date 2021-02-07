@@ -18,6 +18,8 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { createEventId } from './EventId'
+import MemberCalendar from './MemberCalendar'
+import TeamCalendar from './TeamCalendar'
 
 function App() {
 
@@ -128,55 +130,20 @@ function App() {
 
 { myCal && loggedIn ? (
   <div>
-      <h2 className='title'>My Calendar</h2>
-            <FullCalendar
-            height="auto"
-        plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
-        droppable={true}
-        editable={true}
-        selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        select={handleDateSelect}
-        eventClick={handleEventClick}
-        eventMouseEnter={handleEventMouseEnter}
-        eventMouseLeave={handleEventMouseLeave}
-        eventDragStart={handleEventDragStart}
-        eventDragStop={handleEventDragStop}
-        eventDrop={handleEventDrop}
-        eventBackgroundColor='#5300AF'
-        eventBorderColor='#5300AF'
-        initialView="dayGridMonth"
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }}
-
-        />
-        
-        
+    <MemberCalendar handleDateSelect={handleDateSelect}
+        handleEventClick={handleEventClick}
+        handleEventMouseEnter={handleEventMouseEnter}
+        handleEventMouseLeave={handleEventMouseLeave}
+        handleEventDragStart={handleEventDragStart}
+        handleEventDragStop={handleEventDragStop}
+        handleEventDrop={handleEventDrop}/>
+                
         </div>
 
             ) :  !myCal && loggedIn ? ( 
               <div>
-              <h2 className='title'>Team Calendar</h2>
-            <FullCalendar
-            height="auto"
-            plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
-            droppable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
-            eventBackgroundColor='#01CBFB'
-            eventBorderColor='#01CBFB'
-            initialView="dayGridMonth"
-            headerToolbar={{
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            }}
-            
-          />
+             <TeamCalendar/>
+
           </div>
           ) :<div> <h2 className='title'>You must be logged in to view the contents</h2><CreateAccount/></div>}
   
