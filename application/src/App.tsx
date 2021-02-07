@@ -18,6 +18,7 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { createEventId } from './EventId'
+import Confirmation from './Confimation'
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
     let title = prompt('Please enter a new title for your event')
     let calendarApi = selectInfo.view.calendar
 
-    calendarApi.unselect() // clear date selection
+    calendarApi.unselect() 
 
     if (title) {
       calendarApi.addEvent({
@@ -33,9 +34,29 @@ function App() {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: selectInfo.allDay
+        allDay: selectInfo.allDay,
+        eventBackgroundColor: '#5300af'
       })
     }
+  }
+
+  const handleEventClick = (clickInfo : any) => {
+
+  if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`))
+  {
+    clickInfo.event.remove()
+  }
+
+  }
+
+  const handleEventMouseEnter = (clickInfo : any) => {
+    
+    
+  }
+
+  const handleEventMouseLeave = (clickInfo : any) => {
+    
+    
   }
 
   const [myCal, setMyCal ] = useState(false);
@@ -50,11 +71,6 @@ function App() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-
-  const handleDateClick = (arg : any) => { // bind with an arrow function
-    alert(arg.dateStr)
-  }
 
   return (
     <div className="App">
@@ -99,8 +115,11 @@ function App() {
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
-        dateClick={handleDateClick}
         select={handleDateSelect}
+        eventClick={handleEventClick}
+        eventMouseEnter={handleEventMouseEnter}
+        eventMouseLeave={handleEventMouseLeave}
+        eventBackgroundColor='#5300AF'
         initialView="dayGridMonth"
         headerToolbar={{
           left: 'prev,next today',
@@ -122,7 +141,7 @@ function App() {
             droppable={true}
             selectMirror={true}
             dayMaxEvents={true}
-            dateClick={handleDateClick}
+            eventBackgroundColor='#01CBFB'
             initialView="dayGridMonth"
             headerToolbar={{
               left: 'prev,next today',
