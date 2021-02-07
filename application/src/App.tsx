@@ -18,7 +18,6 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { createEventId } from './EventId'
-import Confirmation from './Confimation'
 
 function App() {
 
