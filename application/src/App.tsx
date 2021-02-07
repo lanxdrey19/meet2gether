@@ -33,8 +33,7 @@ function App() {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-        eventBackgroundColor: '#5300af'
+        allDay: selectInfo.allDay
       })
     }
   }
@@ -48,14 +47,37 @@ function App() {
 
   }
 
-  const handleEventMouseEnter = (clickInfo : any) => {
+  const handleEventMouseEnter = (mouseEnterInfo : any) => {
+
     
+    mouseEnterInfo.event.setProp('backgroundColor', '#DA0700');
+    mouseEnterInfo.event.setProp('borderColor', '#DA0700');
     
   }
 
-  const handleEventMouseLeave = (clickInfo : any) => {
+
+  const handleEventDrop = (eventDropInfo: any) => {
     
+    eventDropInfo.event.setProp('backgroundColor', '#5300AF');
+    eventDropInfo.event.setProp('borderColor', '#5300AF');
+  }
+
+  const handleEventDragStart = (info : any) => {
     
+    info.event.setProp('backgroundColor', '#5300AF');
+    info.event.setProp('borderColor', '#5300AF');
+  }
+
+  const handleEventDragStop = (info : any) => {
+    
+    info.event.setProp('backgroundColor', '#5300AF');
+    info.event.setProp('borderColor', '#5300AF');
+  }
+
+  const handleEventMouseLeave = (mouseEnterInfo : any) => {
+    
+    mouseEnterInfo.event.setProp('backgroundColor', '#5300AF');
+    mouseEnterInfo.event.setProp('borderColor', '#5300AF');
   }
 
   const [myCal, setMyCal ] = useState(false);
@@ -65,6 +87,7 @@ function App() {
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    
   };
 
   const handleClose = () => {
@@ -118,7 +141,11 @@ function App() {
         eventClick={handleEventClick}
         eventMouseEnter={handleEventMouseEnter}
         eventMouseLeave={handleEventMouseLeave}
+        eventDragStart={handleEventDragStart}
+        eventDragStop={handleEventDragStop}
+        eventDrop={handleEventDrop}
         eventBackgroundColor='#5300AF'
+        eventBorderColor='#5300AF'
         initialView="dayGridMonth"
         headerToolbar={{
           left: 'prev,next today',
@@ -141,6 +168,7 @@ function App() {
             selectMirror={true}
             dayMaxEvents={true}
             eventBackgroundColor='#01CBFB'
+            eventBorderColor='#01CBFB'
             initialView="dayGridMonth"
             headerToolbar={{
               left: 'prev,next today',
