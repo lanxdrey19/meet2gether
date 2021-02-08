@@ -77,7 +77,7 @@ router.patch('/addevent/:id',async(req,res) => {
 
     try {
 
-        var allEvents = [];
+        var allEvents = req.body.events;
         const eventLength = req.body.events.length
 
         for(var i = 0;i < eventLength ; i++) {
