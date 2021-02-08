@@ -7,7 +7,7 @@ const UserEvent = require('../models/UserEvent');
 
 
 
-router.get('/allorgs',async (req,res) => {
+router.get('/',async (req,res) => {
     try {
         const organisations = await Organisation.find();
     res.status(200).json(organisations);
@@ -17,7 +17,7 @@ router.get('/allorgs',async (req,res) => {
 
    });
 
-router.post('/neworg',async (req,res) => {
+router.post('/new',async (req,res) => {
     
     var emptyArray = [];
 
