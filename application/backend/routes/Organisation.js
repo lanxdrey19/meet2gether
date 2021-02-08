@@ -89,6 +89,34 @@ router.patch('/deletemember/:id',async(req,res) => {
 
 });
 
+router.patch('/addorgvent/:id',async(req,res) => {
+
+    var emptyArray = [];
+
+    try {
+            
+    const newEvent =  new OrgEvent ({
+                title: req.body.events[0].title,
+                startTime: req.body.events[0].startTime,
+                endTime: req.body.events[0].endTime,
+                backgroundColor: req.body.events[0].backgroundColor ,
+                outlineColor: req.body.events[0].outlineColor,
+                description: req.body.events[0].description,
+                unavailableMembers: emptyArray
+    });
+
+
+        const organisation = await Organisation.updateOne(
+            {_id: req.params.id},
+            {$addToSet: {orgEvents: newEvent} });
+        res.status(200).json(organisation);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
 module.exports = router;
 
 

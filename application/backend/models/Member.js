@@ -13,7 +13,7 @@ const EventSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    backGroundColor: {
+    backgroundColor: {
         type:String,
         default:"#5300AF"
     },
