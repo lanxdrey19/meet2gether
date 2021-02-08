@@ -63,7 +63,8 @@ const orgEventSchema = mongoose.Schema({
 
 
 const OrgSchema = mongoose.Schema({
-    orgEvents: [orgEventSchema]
+    orgEvents: [orgEventSchema],
+    members: [MemberSchema]
 
 });
 
