@@ -44,12 +44,7 @@ router.post('/new',async (req,res) => {
         if (members[i].name === req.body.name) {
             throw new Error('Name already exists');
         }
-    /*
-        allEvents.push(new UserEvent ({
-            title: req.body.events[i].title,
-            startTime: req.body.events[i].startTime,
-            endTime: req.body.events[i].endTime }));
-            */
+
     }
         const savedMember = await member.save();
         res.status(200).json(savedMember);
@@ -111,27 +106,36 @@ router.patch('/changename/:id',async(req,res) => {
 
 });
 
-/*
+
 router.patch('/deleteevent/:id',async(req,res) => {
 
 
     try {
         
-        const tempMember= await Member.findById(req.body._id)
-        
+        const tempMember= await Member.findById(req.body._id);
+        var newEvents = []
         var allEvents = tempMember.events;
-        const eventLength = allEvents.length
-
+        const eventLength = allEvents.length;
+        var didDelete = false;
         for(var i = 0;i < eventLength ; i++) {
 
-                if (allEvents[i]._id === req.params.id) {
-                    allEvents.deleteOne(allEvents[i]._id)
+                if (allEvents[i]._id.toString() === req.params.id.toString()) {
+
+                    didDelete = true;
+                } else {
+                    newEvents.push(allEvents[i]);
                 }
+
         }
+
+        if (!didDelete) {
+            throw new Error('could not find event');
+        }
+        
 
         const member = await Member.updateOne(
             {_id: req.body._id},
-            {$set: {events: allEvents} });
+            {$set: {events: newEvents} });
         res.status(200).json(member);
     } catch (err) {
         res.status(400).json({message: err});
@@ -139,7 +143,6 @@ router.patch('/deleteevent/:id',async(req,res) => {
 
 
 });
-*/
 
 module.exports = router;
 
