@@ -76,20 +76,16 @@ router.patch('/addevent/:id',async(req,res) => {
     
 
     try {
+            
+    const newEvent =  new UserEvent ({
+                title: req.body.events[0].title,
+                startTime: req.body.events[0].startTime,
+                endTime: req.body.events[0].endTime })
 
-        var allEvents = req.body.events;
-        const eventLength = req.body.events.length
-
-        for(var i = 0;i < eventLength ; i++) {
-            allEvents.push(new UserEvent ({
-                title: req.body.events[i].title,
-                startTime: req.body.events[i].startTime,
-                endTime: req.body.events[i].endTime }));
-        }
 
         const member = await Member.updateOne(
             {_id: req.params.id},
-            {$set: {events: allEvents} });
+            {$addToSet: {events: newEvent} });
         res.status(200).json(member);
     } catch (err) {
         res.status(400).json({message: err});
@@ -100,7 +96,6 @@ router.patch('/addevent/:id',async(req,res) => {
 
 router.patch('/changename/:id',async(req,res) => {
 
-    
 
     try {
 
@@ -116,6 +111,35 @@ router.patch('/changename/:id',async(req,res) => {
 
 });
 
+/*
+router.patch('/deleteevent/:id',async(req,res) => {
+
+
+    try {
+        
+        const tempMember= await Member.findById(req.body._id)
+        
+        var allEvents = tempMember.events;
+        const eventLength = allEvents.length
+
+        for(var i = 0;i < eventLength ; i++) {
+
+                if (allEvents[i]._id === req.params.id) {
+                    allEvents.deleteOne(allEvents[i]._id)
+                }
+        }
+
+        const member = await Member.updateOne(
+            {_id: req.body._id},
+            {$set: {events: allEvents} });
+        res.status(200).json(member);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+*/
 
 module.exports = router;
 
