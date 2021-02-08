@@ -59,6 +59,18 @@ router.post('/new',async (req,res) => {
 
 });
 
+router.delete('/:id',async(req,res) => {
+
+    try {
+        const member = await Member.deleteOne({_id: req.params.id});
+        res.status(200).json(member);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
 module.exports = router;
 
 
