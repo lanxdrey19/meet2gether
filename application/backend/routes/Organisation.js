@@ -52,6 +52,43 @@ router.patch('/addmember/:id',async(req,res) => {
 
 });
 
+router.patch('/deletemember/:id',async(req,res) => {
+
+
+    try {
+        
+        const tempOrganisation= await Organisation.findById(req.body._id);
+        var newMembers = []
+        var allMembers = tempOrganisation.members;
+        const memberLength = allMembers.length;
+        var didDelete = false;
+        for(var i = 0;i < memberLength ; i++) {
+
+                if (allMembers[i]._id.toString() === req.params.id.toString()) {
+
+                    didDelete = true;
+                } else {
+                    newMembers.push(allMembers[i]);
+                }
+
+        }
+
+        if (!didDelete) {
+            throw new Error('could not find member');
+        }
+        
+
+        const organisation = await Organisation.updateOne(
+            {_id: req.body._id},
+            {$set: {members: newMembers} });
+        res.status(200).json(organisation);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
 module.exports = router;
 
 
