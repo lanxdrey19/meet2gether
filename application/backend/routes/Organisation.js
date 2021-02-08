@@ -7,11 +7,17 @@ const UserEvent = require('../models/UserEvent');
 
 
 
-router.get('/',(req,res) => {
-    res.send('on org');
+router.get('/allorgs',async (req,res) => {
+    try {
+        const organisations = await Organisation.find();
+    res.status(200).json(organisations);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
    });
 
-router.post('/neworg',(req,res) => {
+router.post('/neworg',async (req,res) => {
     
     var emptyArray = [];
 
@@ -20,15 +26,13 @@ router.post('/neworg',(req,res) => {
         orgEvents: emptyArray,
         members: emptyArray
     });
-    organisation.save()
-        .then(data => {
-            res.status(200).json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(400).json({message: err});
-        });
+try {
+    const savedOrg = await organisation.save();
+    res.status(200).json(savedOrg);
+} catch (err) {
+    res.status(400).json({message: err});
 
+}
 });
 
 module.exports = router;
