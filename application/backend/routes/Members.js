@@ -12,13 +12,14 @@ router.post('/',(req,res) => {
     const member = new Member({
         name: req.body.name,
         events: req.body.events 
+        
     });
     member.save()
         .then(data => {
-            res.json(data);
+            res.status(200).json(data);
         })
         .catch(err => {
-            res.json(err);
+            res.status(400).json({message: err});
         });
 
 });
