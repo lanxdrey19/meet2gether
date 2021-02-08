@@ -117,6 +117,43 @@ router.patch('/addorgvent/:id',async(req,res) => {
 
 });
 
+router.patch('/deleteorgvent/:id',async(req,res) => {
+
+   
+try {
+        
+    const tempOrganisation= await Organisation.findById(req.body._id);
+    var newEvents = []
+    var allEvents = tempOrganisation.orgEvents;
+    const eventsLength = allEvents.length;
+    var didDelete = false;
+    for(var i = 0;i < eventsLength ; i++) {
+
+            if (allEvents[i]._id.toString() === req.params.id.toString()) {
+
+                didDelete = true;
+            } else {
+                newEvents.push(allEvents[i]);
+            }
+
+    }
+
+    if (!didDelete) {
+        throw new Error('could not find event');
+    }
+    
+
+    const organisation = await Organisation.updateOne(
+        {_id: req.body._id},
+        {$set: {orgEvents: newEvents} });
+    res.status(200).json(organisation);
+} catch (err) {
+    res.status(400).json({message: err});
+}
+
+
+});
+
 module.exports = router;
 
 
