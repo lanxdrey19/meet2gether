@@ -9,9 +9,20 @@ router.get('/',(req,res) => {
    });
 
 router.post('/',(req,res) => {
-    console.log(req.body);
-   });
+    const member = new Member({
+        name: req.body.name,
+        events: req.body.events 
+    });
+    member.save()
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.json(err);
+        });
 
-module.exports = router
+});
+
+module.exports = router;
 
 
