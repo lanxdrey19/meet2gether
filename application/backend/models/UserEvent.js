@@ -23,18 +23,4 @@ const EventSchema = mongoose.Schema({
     }
 });
 
-const MemberSchema = mongoose.Schema({
-    name: {
-        type:String,
-        required:true,
-        minlength: 4,
-         maxlength: 255
-    
-    },
-    events: [EventSchema]
-
-});
-
-
-
-module.exports = mongoose.model('Member',MemberSchema);
+module.exports = mongoose.model('UserEvent',EventSchema);

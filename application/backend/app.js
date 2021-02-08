@@ -6,6 +6,10 @@ require('dotenv/config');
 const memberRoute = require('./routes/Members');
 const organisationRoute = require('./routes/Organisation');
 
+mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true, useUnifiedTopology: true },() => {
+    console.log('connected')
+});
+
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
@@ -21,9 +25,5 @@ app.get('/posts',(req,res) => {
     res.send('on posts');
    });
    */
-
-mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true },() => {
-    console.log('connected')
-})
 
 app.listen(3000);
