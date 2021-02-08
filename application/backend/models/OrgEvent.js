@@ -62,11 +62,4 @@ const orgEventSchema = mongoose.Schema({
 });
 
 
-const OrgSchema = mongoose.Schema({
-    orgEvents: [orgEventSchema],
-    members: [MemberSchema]
-
-});
-
-
-module.exports = mongoose.model('Organisation',OrgSchema);
+module.exports = mongoose.model('OrgEvent',orgEventSchema);
