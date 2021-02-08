@@ -35,6 +35,23 @@ try {
 }
 });
 
+router.patch('/addmember/:id',async(req,res) => {
+
+    
+
+    try {
+        const newMember= await Member.findById(req.params.id);
+        const organisation = await Organisation.updateOne(
+            {_id: req.body._id},
+            {$addToSet: {members: newMember} });
+        res.status(200).json(organisation);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
 module.exports = router;
 
 
