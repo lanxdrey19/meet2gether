@@ -71,6 +71,52 @@ router.delete('/:id',async(req,res) => {
 
 });
 
+router.patch('/addevent/:id',async(req,res) => {
+
+    
+
+    try {
+
+        var allEvents = [];
+        const eventLength = req.body.events.length
+
+        for(var i = 0;i < eventLength ; i++) {
+            allEvents.push(new UserEvent ({
+                title: req.body.events[i].title,
+                startTime: req.body.events[i].startTime,
+                endTime: req.body.events[i].endTime }));
+        }
+
+        const member = await Member.updateOne(
+            {_id: req.params.id},
+            {$set: {events: allEvents} });
+        res.status(200).json(member);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
+router.patch('/changename/:id',async(req,res) => {
+
+    
+
+    try {
+
+
+        const member = await Member.updateOne(
+            {_id: req.params.id},
+            {$set: {name: req.body.name} });
+        res.status(200).json(member);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
+
 module.exports = router;
 
 
