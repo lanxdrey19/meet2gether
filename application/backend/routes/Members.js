@@ -1,5 +1,7 @@
 const express= require('express');
 const router = express.Router();
+const Organisation = require('../models/Organisation');
+const OrgEvent = require('../models/OrgEvent');
 const Member = require('../models/Member');
 const UserEvent = require('../models/UserEvent');
 
@@ -31,7 +33,6 @@ router.post('/new',async (req,res) => {
     //const length = req.body.events.length;
     var allEvents = [];
     
-
     const member = new Member({
         name: req.body.name,
         events: allEvents
@@ -41,13 +42,15 @@ router.post('/new',async (req,res) => {
     const members= await Member.find();
     for (var i = 0;i< members.length ;i++) {
 
-        if (members[i].name === req.body.name) {
+        if (members[i].name.toString() === req.body.name.toString()) {
             throw new Error('Name already exists');
         }
 
     }
-        const savedMember = await member.save();
-        res.status(200).json(savedMember);
+
+    const savedMember = await member.save();
+    res.status(200).json(savedMember);
+
     } catch (err) {
         res.status(400).json({message: err});
     }

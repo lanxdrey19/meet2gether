@@ -34,7 +34,7 @@ try {
 
 }
 });
-
+/*
 router.patch('/addmember/:id',async(req,res) => {
 
     
@@ -51,6 +51,40 @@ router.patch('/addmember/:id',async(req,res) => {
 
 
 });
+*/
+
+router.patch('/addmember/:orgId',async(req,res) => {
+
+    try {
+
+        const tempOrganisation= await Organisation.findById(req.params.orgId);
+        var existingMembers = tempOrganisation.members;
+        const memberLength = existingMembers.length;
+        for(var i = 0;i < memberLength ; i++) {
+
+                if (existingMembers[i].name.toString().toLowerCase() === req.body.name.toString().toLowerCase()) {
+                    throw new Error('The user: ' + req.body.name + ' already exists...');
+                }
+
+        }
+        
+        
+    var allEvents = [];
+    const member = new Member({
+        name: req.body.name.toString().toLowerCase(),
+        events: allEvents
+    });
+    const organisation = await Organisation.updateOne(
+        {_id: req.params.orgId},
+        {$addToSet: {members: member} });
+    res.status(200).json(organisation);
+    } catch (err) {
+        res.status(400).json({message:err});
+    }
+
+});
+
+/*
 
 router.patch('/deletemember/:id',async(req,res) => {
 
@@ -65,6 +99,45 @@ router.patch('/deletemember/:id',async(req,res) => {
         for(var i = 0;i < memberLength ; i++) {
 
                 if (allMembers[i]._id.toString() === req.params.id.toString()) {
+
+                    didDelete = true;
+                } else {
+                    newMembers.push(allMembers[i]);
+                }
+
+        }
+
+        if (!didDelete) {
+            throw new Error('could not find member');
+        }
+        
+
+        const organisation = await Organisation.updateOne(
+            {_id: req.body._id},
+            {$set: {members: newMembers} });
+        res.status(200).json(organisation);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
+*/
+
+router.patch('/deletemember/:memberId',async(req,res) => {
+
+
+    try {
+        
+        const tempOrganisation= await Organisation.findById(req.body._id);
+        var newMembers = []
+        var allMembers = tempOrganisation.members;
+        const memberLength = allMembers.length;
+        var didDelete = false;
+        for(var i = 0;i < memberLength ; i++) {
+
+                if (allMembers[i]._id.toString() === req.params.memberId.toString()) {
 
                     didDelete = true;
                 } else {
