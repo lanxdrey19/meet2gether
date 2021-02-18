@@ -137,7 +137,7 @@ router.patch('/deletemember/:memberId',async(req,res) => {
         var didDelete = false;
         for(var i = 0;i < memberLength ; i++) {
 
-                if (allMembers[i]._id.toString() === req.params.memberId.toString()) {
+                if (allMembers[i]._id.toString().toLowerCase() === req.params.memberId.toString().toLowerCase()) {
 
                     didDelete = true;
                 } else {
@@ -155,6 +155,109 @@ router.patch('/deletemember/:memberId',async(req,res) => {
             {_id: req.body._id},
             {$set: {members: newMembers} });
         res.status(200).json(organisation);
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
+router.patch('/addmemberevent/:orgId',async(req,res) => {
+
+    var tempMembersArray = [];
+
+    try {
+            
+    const newEvent =  new UserEvent ({
+                title: req.body.title,
+                startTime: req.body.startTime,
+                endTime: req.body.endTime,
+    });
+
+    const tempOrganisation= await Organisation.findById(req.params.orgId);
+    var existingMembers = tempOrganisation.members;
+    const memberLength = existingMembers.length;
+    
+    for(var i = 0;i < memberLength ; i++) {
+
+            if (existingMembers[i]._id.toString().toLowerCase() === req.body.memberId.toString().toLowerCase()) {
+                existingMembers[i].events.push(newEvent);
+            }
+
+            tempMembersArray.push(existingMembers[i]);
+
+    }
+
+
+        const organisation = await Organisation.updateOne(
+            {_id: req.params.orgId},
+            {$set: {members: tempMembersArray} });
+        res.status(200).json(organisation);
+        
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
+
+
+});
+
+router.patch('/deletememberevent/:orgId',async(req,res) => {
+
+    var tempEventsArray = [];
+    var tempMembersArray = [];
+
+    try {
+        
+
+    const tempOrganisation= await Organisation.findById(req.params.orgId);
+    var existingMembers = tempOrganisation.members;
+    const memberLength = existingMembers.length;
+    
+    for(var i = 0;i < memberLength ; i++) {
+
+            if (existingMembers[i]._id.toString().toLowerCase() === req.body.memberId.toString().toLowerCase()) {
+
+                var memberEvents = existingMembers[i].events;
+                const memberEventsLength = memberEvents.length;
+
+                var didDelete = false;
+
+                
+                for(var j = 0;j < memberEventsLength ; j++) {
+
+                    if (memberEvents[j]._id.toString().toLowerCase() === req.body.eventId.toString().toLowerCase()) {
+
+                        didDelete = true;
+
+                    } else {
+
+                        tempEventsArray.push(memberEvents[j]);
+
+                    }
+
+                }
+
+                if (!didDelete) {
+                    throw new Error('could not find member event');
+                }
+
+                existingMembers[i].events = tempEventsArray;
+                
+                
+
+            }
+
+            tempMembersArray.push(existingMembers[i]);
+
+    }
+    
+        
+        const organisation = await Organisation.updateOne(
+            {_id: req.params.orgId},
+            {$set: {members: tempMembersArray} });
+        res.status(200).json(organisation);
+
+        
     } catch (err) {
         res.status(400).json({message: err});
     }

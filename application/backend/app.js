@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 require('dotenv/config');
 
-const memberRoute = require('./routes/Members');
+//const memberRoute = require('./routes/Members');
 const organisationRoute = require('./routes/Organisation');
 
 mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true, useUnifiedTopology: true },() => {
@@ -13,7 +13,7 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true, useUnifiedTo
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
-app.use('/member', memberRoute);
+//app.use('/member', memberRoute);
 app.use('/organisation',organisationRoute);
 
 /*
