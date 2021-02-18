@@ -162,11 +162,16 @@ router.patch('/deletemember/:memberId',async(req,res) => {
 
 });
 
-router.patch('/addmemberevent/:orgId',async(req,res) => {
+router.patch('/addevent/:orgId',async(req,res) => {
 
     var tempMembersArray = [];
+    var memberName;
+
 
     try {
+
+    const tempOrganisation= await Organisation.findById(req.params.orgId);
+
             
     const newEvent =  new UserEvent ({
                 title: req.body.title,
@@ -174,7 +179,14 @@ router.patch('/addmemberevent/:orgId',async(req,res) => {
                 endTime: req.body.endTime,
     });
 
-    const tempOrganisation= await Organisation.findById(req.params.orgId);
+    
+
+    
+    var tempEventsArray = tempOrganisation.orgEvents;
+
+    
+
+
     var existingMembers = tempOrganisation.members;
     const memberLength = existingMembers.length;
     
@@ -182,16 +194,28 @@ router.patch('/addmemberevent/:orgId',async(req,res) => {
 
             if (existingMembers[i]._id.toString().toLowerCase() === req.body.memberId.toString().toLowerCase()) {
                 existingMembers[i].events.push(newEvent);
+                memberName = existingMembers[i].name;
             }
 
             tempMembersArray.push(existingMembers[i]);
 
     }
+    
+    const newOrgEvent =  new OrgEvent ({
+        title: memberName,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+    });
+
+    tempEventsArray.push(newOrgEvent);
 
 
         const organisation = await Organisation.updateOne(
             {_id: req.params.orgId},
-            {$set: {members: tempMembersArray} });
+            {$set: {members: tempMembersArray,orgEvents: tempEventsArray} }
+            );
+
+
         res.status(200).json(organisation);
         
     } catch (err) {
@@ -201,7 +225,7 @@ router.patch('/addmemberevent/:orgId',async(req,res) => {
 
 });
 
-router.patch('/deletememberevent/:orgId',async(req,res) => {
+router.patch('/deleteevent/:orgId',async(req,res) => {
 
     var tempEventsArray = [];
     var tempMembersArray = [];
@@ -264,6 +288,7 @@ router.patch('/deletememberevent/:orgId',async(req,res) => {
 
 
 });
+/*
 
 router.patch('/addorgvent/:id',async(req,res) => {
 
@@ -329,6 +354,7 @@ try {
 
 
 });
+*/
 
 module.exports = router;
 

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+/*
 const EventSchema = mongoose.Schema({
     title: {
         type:String,
@@ -22,7 +22,8 @@ const EventSchema = mongoose.Schema({
         default:"#5300AF"
     }
 });
-
+*/
+/*
 const MemberSchema = mongoose.Schema({
     name: {
         type:String,
@@ -31,6 +32,7 @@ const MemberSchema = mongoose.Schema({
     events: [EventSchema]
 
 });
+*/
 
 const orgEventSchema = mongoose.Schema({
     title: {
@@ -47,17 +49,12 @@ const orgEventSchema = mongoose.Schema({
     },
     backgroundColor: {
         type:String,
-        required:true
+        default:"#5300AF"
     },
     outlineColor: {
         type:String,
-        required:true
-    },
-    description: {
-        type:String,
-        required:true
-    },
-    unavailableMembers: [MemberSchema]
+        default:"#5300AF"
+    }
 
 });
 
