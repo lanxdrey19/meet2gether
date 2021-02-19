@@ -227,6 +227,7 @@ router.patch('/addevent/:orgId',async(req,res) => {
 
 router.patch('/deleteevent/:orgId',async(req,res) => {
 
+    var tempOrgEventsArray = [];
     var tempEventsArray = [];
     var tempMembersArray = [];
 
@@ -234,7 +235,11 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
         
 
     const tempOrganisation= await Organisation.findById(req.params.orgId);
+    var existingOrgEvents = tempOrganisation.orgEvents;
+    var existingOrgEventsLength = existingOrgEvents.length;
     var existingMembers = tempOrganisation.members;
+    var memberEventStartTime;
+    var memberEventEndTime;
     const memberLength = existingMembers.length;
     
     for(var i = 0;i < memberLength ; i++) {
@@ -249,10 +254,13 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
                 
                 for(var j = 0;j < memberEventsLength ; j++) {
 
-                    if (memberEvents[j]._id.toString().toLowerCase() === req.body.eventId.toString().toLowerCase()) {
+                    if (memberEvents[j]._id.toString().toLowerCase() === req.body.memberEventId.toString().toLowerCase() && !didDelete) {
 
                         didDelete = true;
-
+                        
+                        memberEventStartTime = memberEvents[j].startTime;
+                        memberEventEndTime = memberEvents[j].endTime;
+                        
                     } else {
 
                         tempEventsArray.push(memberEvents[j]);
@@ -275,13 +283,41 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
 
     }
     
+
+    var didDelete2 = false;
+
+    for (var k = 0 ; k < existingOrgEventsLength ; k++ ) {
+
+        if ( (existingOrgEvents[k].startTime.toString().toLowerCase() === memberEventStartTime.toString().toLowerCase() ) 
+        
+        &&  (existingOrgEvents[k].endTime.toString().toLowerCase() === memberEventEndTime.toString().toLowerCase() ) 
+        
+        && !didDelete2 ) {
+
+            didDelete2 = true;
+
+        } else {
+
+            tempOrgEventsArray.push(existingOrgEvents[k]);
+
+        }
+
+    }
+
+    if (!didDelete2) {
+        throw new Error('could not find organisation event');
+    }
+
+
+    
         
         const organisation = await Organisation.updateOne(
             {_id: req.params.orgId},
-            {$set: {members: tempMembersArray} });
+            {$set: {members: tempMembersArray, orgEvents: tempOrgEventsArray} });
         res.status(200).json(organisation);
 
         
+       //res.status(200).status(tempOrganisation);
     } catch (err) {
         res.status(400).json({message: err});
     }
