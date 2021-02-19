@@ -35,6 +35,43 @@ try {
 }
 });
 
+router.get('/getuserbyname/:orgId',async (req,res) => {
+    try{
+      
+    
+        const tempOrganisation= await Organisation.findById(req.params.orgId);
+        var existingMembers = tempOrganisation.members;
+        const memberLength = existingMembers.length;
+        var didGet = false;
+        var finalMember;
+        
+        for(var i = 0;i < memberLength ; i++) {
+    
+            if (existingMembers[i].name.toString().toLowerCase().trim() === req.body.name.toString().toLowerCase().trim() && !didGet ) {
+    
+                
+                var finalMember = existingMembers[i];
+                didGet = true;
+            
+            } 
+    
+        }
+
+
+
+        if (!didGet) {
+            throw new Error('Could not find the member');
+        }
+
+        res.status(200).json(finalMember);
+    
+       
+        }catch (err) {
+        res.status(400).json({message:err});
+        }
+            
+    });
+
 router.patch('/changename/:orgId',async (req,res) => {
 try {
     var tempMembersArray = [];
@@ -46,7 +83,7 @@ try {
     
     for(var i = 0;i < memberLength ; i++) {
 
-        if (existingMembers[i]._id.toString().toLowerCase() === req.body.memberId.toString().toLowerCase() && !didChange) {
+        if (existingMembers[i]._id.toString().toLowerCase().trim() === req.body.memberId.toString().toLowerCase().trim() && !didChange) {
 
             didChange = true;
             existingMembers[i].name = req.body.name;
@@ -100,7 +137,7 @@ router.patch('/addmember/:orgId',async(req,res) => {
         const memberLength = existingMembers.length;
         for(var i = 0;i < memberLength ; i++) {
 
-                if (existingMembers[i].name.toString().toLowerCase() === req.body.name.toString().toLowerCase()) {
+                if (existingMembers[i].name.toString().toLowerCase().trim() === req.body.name.toString().toLowerCase().trim()) {
                     throw new Error('The user: ' + req.body.name + ' already exists...');
                 }
 
@@ -109,7 +146,7 @@ router.patch('/addmember/:orgId',async(req,res) => {
         
     var allEvents = [];
     const member = new Member({
-        name: req.body.name.toString().toLowerCase(),
+        name: req.body.name.toString().toLowerCase().trim(),
         events: allEvents
     });
     const organisation = await Organisation.updateOne(
@@ -175,7 +212,7 @@ router.patch('/deletemember/:memberId',async(req,res) => {
         var didDelete = false;
         for(var i = 0;i < memberLength ; i++) {
 
-                if (allMembers[i]._id.toString().toLowerCase() === req.params.memberId.toString().toLowerCase()) {
+                if (allMembers[i]._id.toString().toLowerCase().trim() === req.params.memberId.toString().toLowerCase().trim()) {
 
                     didDelete = true;
                 } else {
@@ -230,7 +267,7 @@ router.patch('/addevent/:orgId',async(req,res) => {
     
     for(var i = 0;i < memberLength ; i++) {
 
-            if (existingMembers[i]._id.toString().toLowerCase() === req.body.memberId.toString().toLowerCase()) {
+            if (existingMembers[i]._id.toString().toLowerCase().trim() === req.body.memberId.toString().toLowerCase().trim()) {
                 existingMembers[i].events.push(newEvent);
                 memberName = existingMembers[i].name;
             }
@@ -282,7 +319,7 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
     
     for(var i = 0;i < memberLength ; i++) {
 
-            if (existingMembers[i]._id.toString().toLowerCase() === req.body.memberId.toString().toLowerCase()) {
+            if (existingMembers[i]._id.toString().toLowerCase().trim() === req.body.memberId.toString().toLowerCase().trim()) {
 
                 var memberEvents = existingMembers[i].events;
                 const memberEventsLength = memberEvents.length;
@@ -292,7 +329,7 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
                 
                 for(var j = 0;j < memberEventsLength ; j++) {
 
-                    if (memberEvents[j]._id.toString().toLowerCase() === req.body.memberEventId.toString().toLowerCase() && !didDelete) {
+                    if (memberEvents[j]._id.toString().toLowerCase().trim() === req.body.memberEventId.toString().toLowerCase().trim() && !didDelete) {
 
                         didDelete = true;
                         
@@ -326,9 +363,9 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
 
     for (var k = 0 ; k < existingOrgEventsLength ; k++ ) {
 
-        if ( (existingOrgEvents[k].startTime.toString().toLowerCase() === memberEventStartTime.toString().toLowerCase() ) 
+        if ( (existingOrgEvents[k].startTime.toString().toLowerCase().trim() === memberEventStartTime.toString().toLowerCase().trim() ) 
         
-        &&  (existingOrgEvents[k].endTime.toString().toLowerCase() === memberEventEndTime.toString().toLowerCase() ) 
+        &&  (existingOrgEvents[k].endTime.toString().toLowerCase().trim() === memberEventEndTime.toString().toLowerCase().trim() ) 
         
         && !didDelete2 ) {
 
