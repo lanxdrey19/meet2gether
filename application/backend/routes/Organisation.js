@@ -34,6 +34,44 @@ try {
 
 }
 });
+
+router.patch('/changename/:orgId',async (req,res) => {
+try {
+    var tempMembersArray = [];
+
+    const tempOrganisation= await Organisation.findById(req.params.orgId);
+    var existingMembers = tempOrganisation.members;
+    const memberLength = existingMembers.length;
+    var didChange = false;
+    
+    for(var i = 0;i < memberLength ; i++) {
+
+        if (existingMembers[i]._id.toString().toLowerCase() === req.body.memberId.toString().toLowerCase() && !didChange) {
+
+            didChange = true;
+            existingMembers[i].name = req.body.name;
+        
+        } 
+
+        tempMembersArray.push(existingMembers[i]);
+
+    }
+
+    if (!didChange) {
+
+        throw new Error('Could not find the member');
+
+    }
+
+    const organisation = await Organisation.updateOne(
+        {_id: req.params.orgId},
+        {$set: {members: tempMembersArray} });
+        res.status(200).json(organisation);
+    }catch (err) {
+    res.status(400).json({message:err});
+}
+        
+});
 /*
 router.patch('/addmember/:id',async(req,res) => {
 
