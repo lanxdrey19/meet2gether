@@ -109,24 +109,7 @@ try {
 }
         
 });
-/*
-router.patch('/addmember/:id',async(req,res) => {
 
-    
-
-    try {
-        const newMember= await Member.findById(req.params.id);
-        const organisation = await Organisation.updateOne(
-            {_id: req.body._id},
-            {$addToSet: {members: newMember} });
-        res.status(200).json(organisation);
-    } catch (err) {
-        res.status(400).json({message: err});
-    }
-
-
-});
-*/
 
 router.patch('/addmember/:orgId',async(req,res) => {
 
@@ -159,46 +142,7 @@ router.patch('/addmember/:orgId',async(req,res) => {
 
 });
 
-/*
 
-router.patch('/deletemember/:id',async(req,res) => {
-
-
-    try {
-        
-        const tempOrganisation= await Organisation.findById(req.body._id);
-        var newMembers = []
-        var allMembers = tempOrganisation.members;
-        const memberLength = allMembers.length;
-        var didDelete = false;
-        for(var i = 0;i < memberLength ; i++) {
-
-                if (allMembers[i]._id.toString() === req.params.id.toString()) {
-
-                    didDelete = true;
-                } else {
-                    newMembers.push(allMembers[i]);
-                }
-
-        }
-
-        if (!didDelete) {
-            throw new Error('could not find member');
-        }
-        
-
-        const organisation = await Organisation.updateOne(
-            {_id: req.body._id},
-            {$set: {members: newMembers} });
-        res.status(200).json(organisation);
-    } catch (err) {
-        res.status(400).json({message: err});
-    }
-
-
-});
-
-*/
 
 router.patch('/deletemember/:memberId',async(req,res) => {
 
@@ -391,81 +335,13 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
             {$set: {members: tempMembersArray, orgEvents: tempOrgEventsArray} });
         res.status(200).json(organisation);
 
-        
-       //res.status(200).status(tempOrganisation);
-    } catch (err) {
-        res.status(400).json({message: err});
-    }
-
-
-});
-/*
-
-router.patch('/addorgvent/:id',async(req,res) => {
-
-    var emptyArray = [];
-
-    try {
-            
-    const newEvent =  new OrgEvent ({
-                title: req.body.events[0].title,
-                startTime: req.body.events[0].startTime,
-                endTime: req.body.events[0].endTime,
-                backgroundColor: req.body.events[0].backgroundColor ,
-                outlineColor: req.body.events[0].outlineColor,
-                description: req.body.events[0].description,
-                unavailableMembers: emptyArray
-    });
-
-
-        const organisation = await Organisation.updateOne(
-            {_id: req.params.id},
-            {$addToSet: {orgEvents: newEvent} });
-        res.status(200).json(organisation);
-    } catch (err) {
-        res.status(400).json({message: err});
-    }
-
-
-});
-
-router.patch('/deleteorgvent/:id',async(req,res) => {
-
-   
-try {
-        
-    const tempOrganisation= await Organisation.findById(req.body._id);
-    var newEvents = []
-    var allEvents = tempOrganisation.orgEvents;
-    const eventsLength = allEvents.length;
-    var didDelete = false;
-    for(var i = 0;i < eventsLength ; i++) {
-
-            if (allEvents[i]._id.toString() === req.params.id.toString()) {
-
-                didDelete = true;
-            } else {
-                newEvents.push(allEvents[i]);
-            }
-
-    }
-
-    if (!didDelete) {
-        throw new Error('could not find event');
-    }
     
-
-    const organisation = await Organisation.updateOne(
-        {_id: req.body._id},
-        {$set: {orgEvents: newEvents} });
-    res.status(200).json(organisation);
-} catch (err) {
-    res.status(400).json({message: err});
-}
+    } catch (err) {
+        res.status(400).json({message: err});
+    }
 
 
 });
-*/
 
 module.exports = router;
 
