@@ -24,10 +24,11 @@ import LoginBtn from './LoginBtn'
 import LoginForm from './LoginForm'
 import {GetOrganisations} from './ApiCalls/GetOrganisations'
 import {GetUserByName} from './ApiCalls/GetUserByName'
-
+import {CreateUser} from './ApiCalls/CreateUser'
+import DataInitialiser from './DataInitialiser';
 function App() {
 
-const [currentUser, setCurrentUser ] = useState();
+const [currentUser, setCurrentUser ] = useState(DataInitialiser);
 const [currentOrg, setCurrentOrg ] = useState();
 const retrieveUserByName = async (query : any) => {
 
@@ -53,6 +54,29 @@ const retrieveUserByName = async (query : any) => {
   const response2 = await GetOrganisations();
   const jsonResults2 = await response2.json();
   setCurrentOrg(jsonResults2);
+
+  }
+
+  
+
+}
+
+const createUser = async (query : any) => {
+
+  
+  console.log(query)
+  
+  const response = await CreateUser(query);
+
+  if (response.status > 300) {
+
+    alert('Creation of user failed');
+
+
+  } else {
+ 
+
+  alert('Creation of user was successful, please log in');
 
   }
 
@@ -160,7 +184,7 @@ const retrieveUserByName = async (query : any) => {
     <Button onClick={(e : any) => setMyCal(true)} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>
     <Button onClick={(e : any) => setMyCal(false)} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>
     {loggedIn ? 
-    (<div><h4 style={{ margin: "auto" }} className='title'>Welcome User</h4></div>) : <div><LoginForm setLoggedIn={setLoggedIn} retrieveUserByName={retrieveUserByName} /></div> }
+    (<div><h4 style={{ margin: "auto" }} className='title'>Welcome {currentUser.name}</h4></div>) : <div><LoginForm setLoggedIn={setLoggedIn} retrieveUserByName={retrieveUserByName} /></div> }
   </Toolbar>
 </AppBar>
 
@@ -182,7 +206,7 @@ const retrieveUserByName = async (query : any) => {
              <TeamCalendar/>
 
           </div>
-          ) :<div> <h2 className='title'>You must be logged in to view the contents</h2><CreateAccount/></div>}
+          ) :<div> <h2 className='title'>You must be logged in to view the contents</h2><CreateAccount createUser={createUser}/></div>}
   
     </div>
   );
