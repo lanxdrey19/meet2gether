@@ -26,7 +26,7 @@ return (
         plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
         droppable={true}
         editable={true}
-        selectable={true}
+        //selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
         eventBackgroundColor='#C9CDF3'
