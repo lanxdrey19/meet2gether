@@ -22,8 +22,27 @@ import MemberCalendar from './MemberCalendar'
 import TeamCalendar from './TeamCalendar'
 import LoginBtn from './LoginBtn'
 import LoginForm from './LoginForm'
+import {GetOrganisations} from './ApiCalls/GetOrganisations'
+import {GetUserByName} from './ApiCalls/GetUserByName'
 
 function App() {
+
+  
+const retrieveUserByName = async (query : any) => {
+
+  
+  console.log(query)
+  
+  const response = await GetUserByName(query);
+  
+
+  const jsonResults = await response.json();
+
+  console.log(jsonResults);
+  //setCurrentAisle(jsonResults);
+  
+
+}
 
   const handleDateSelect = (selectInfo : any) => {
     let title = prompt('Please enter a new title for your event')
@@ -125,7 +144,7 @@ function App() {
     <Button onClick={(e : any) => setMyCal(true)} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>
     <Button onClick={(e : any) => setMyCal(false)} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>
     {loggedIn ? 
-    (<div><h4 style={{ margin: "auto" }} className='title'>Welcome User</h4></div>) : <div><LoginForm setLoggedIn={setLoggedIn} /></div> }
+    (<div><h4 style={{ margin: "auto" }} className='title'>Welcome User</h4></div>) : <div><LoginForm setLoggedIn={setLoggedIn} retrieveUserByName={retrieveUserByName} /></div> }
   </Toolbar>
 </AppBar>
 

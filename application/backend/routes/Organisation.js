@@ -35,7 +35,7 @@ try {
 }
 });
 
-router.get('/getuserbyname/:orgId',async (req,res) => {
+router.post('/getuserbyname/:orgId',async (req,res) => {
     try{
       
     

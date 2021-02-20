@@ -6,7 +6,14 @@ export async function GetOrganisations() {
 
 
     
-    console.log(`${urlBeginning}`);
-    return fetch(`${urlBeginning}`);
+    return fetch(`${urlBeginning}`, {
+        method: 'GET',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+        },
+     
+        })
     
 }
