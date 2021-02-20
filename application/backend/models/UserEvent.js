@@ -5,11 +5,11 @@ const EventSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    startTime: {
+    start: {
         type:String,
         required:true
     },
-    endTime: {
+    end: {
         type:String,
         required:true
     },

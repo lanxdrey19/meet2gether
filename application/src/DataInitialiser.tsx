@@ -1,3 +1,4 @@
 export default {
-    name: "name"
+    name: "name",
+    events: []
 }

@@ -26,10 +26,11 @@ import {GetOrganisations} from './ApiCalls/GetOrganisations'
 import {GetUserByName} from './ApiCalls/GetUserByName'
 import {CreateUser} from './ApiCalls/CreateUser'
 import DataInitialiser from './DataInitialiser';
+import OrgInitialiser from './OrgInitialiser';
 function App() {
 
 const [currentUser, setCurrentUser ] = useState(DataInitialiser);
-const [currentOrg, setCurrentOrg ] = useState();
+const [currentOrg, setCurrentOrg ] = useState(OrgInitialiser);
 const retrieveUserByName = async (query : any) => {
 
   
@@ -48,12 +49,12 @@ const retrieveUserByName = async (query : any) => {
 
   } else {
   const jsonResults = await response.json();
-  console.log(jsonResults);
   setCurrentUser(jsonResults);
   setLoggedIn(true);
   const response2 = await GetOrganisations();
   const jsonResults2 = await response2.json();
-  setCurrentOrg(jsonResults2);
+  console.log(jsonResults2[0].orgEvents)
+  setCurrentOrg(jsonResults2[0]);
 
   }
 
@@ -197,13 +198,15 @@ const createUser = async (query : any) => {
         handleEventMouseLeave={handleEventMouseLeave}
         handleEventDragStart={handleEventDragStart}
         handleEventDragStop={handleEventDragStop}
-        handleEventDrop={handleEventDrop}/>
+        handleEventDrop={handleEventDrop}
+        currentUserEvents={currentUser.events}/>
                 
         </div>
 
             ) :  !myCal && loggedIn ? ( 
               <div>
-             <TeamCalendar/>
+                
+             <TeamCalendar currentOrgEvents={currentOrg.orgEvents}/>
 
           </div>
           ) :<div> <h2 className='title'>You must be logged in to view the contents</h2><CreateAccount createUser={createUser}/></div>}

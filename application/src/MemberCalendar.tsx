@@ -38,6 +38,7 @@ return (
         eventDrop={props.handleEventDrop}
         eventBackgroundColor='#5300AF'
         eventBorderColor='#5300AF'
+        events={props.currentUserEvents}
         initialView="dayGridMonth"
         headerToolbar={{
           left: 'prev,next today',

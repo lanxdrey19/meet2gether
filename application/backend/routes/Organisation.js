@@ -194,8 +194,8 @@ router.patch('/addevent/:orgId',async(req,res) => {
             
     const newEvent =  new UserEvent ({
                 title: req.body.title,
-                startTime: req.body.startTime,
-                endTime: req.body.endTime,
+                start: req.body.start,
+                endTime: req.body.end,
     });
 
     
@@ -222,8 +222,8 @@ router.patch('/addevent/:orgId',async(req,res) => {
     
     const newOrgEvent =  new OrgEvent ({
         title: memberName,
-        startTime: req.body.startTime,
-        endTime: req.body.endTime,
+        startTime: req.body.start,
+        endTime: req.body.end,
     });
 
     tempEventsArray.push(newOrgEvent);
@@ -277,8 +277,8 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
 
                         didDelete = true;
                         
-                        memberEventStartTime = memberEvents[j].startTime;
-                        memberEventEndTime = memberEvents[j].endTime;
+                        memberEventStartTime = memberEvents[j].start;
+                        memberEventEndTime = memberEvents[j].end;
                         
                     } else {
 
@@ -307,9 +307,9 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
 
     for (var k = 0 ; k < existingOrgEventsLength ; k++ ) {
 
-        if ( (existingOrgEvents[k].startTime.toString().toLowerCase().trim() === memberEventStartTime.toString().toLowerCase().trim() ) 
+        if ( (existingOrgEvents[k].start.toString().toLowerCase().trim() === memberEventStartTime.toString().toLowerCase().trim() ) 
         
-        &&  (existingOrgEvents[k].endTime.toString().toLowerCase().trim() === memberEventEndTime.toString().toLowerCase().trim() ) 
+        &&  (existingOrgEvents[k].end.toString().toLowerCase().trim() === memberEventEndTime.toString().toLowerCase().trim() ) 
         
         && !didDelete2 ) {
 

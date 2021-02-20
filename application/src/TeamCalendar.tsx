@@ -32,6 +32,7 @@ return (
         eventBackgroundColor='#C9CDF3'
         eventBorderColor='#C9CDF3'
         initialView="dayGridMonth"
+        events={props.currentOrgEvents}
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
