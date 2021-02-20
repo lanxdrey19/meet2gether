@@ -263,8 +263,12 @@ const createUser = async (query : any) => {
     <Typography variant="h6" style={{ marginRight: "auto" }} >
       Meet2Gether
     </Typography>
-    <Button onClick={(e : any) => {setMyCal(true);updateCalendar(myCal); }} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>
-    <Button onClick={(e : any) => {setMyCal(false);updateCalendar(myCal); }} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>
+    {loggedIn ? (<Button variant="outlined" onClick={(e : any) => {setMyCal(true);updateCalendar(myCal); }} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>) 
+    : <Button disabled variant="outlined" onClick={(e : any) => {setMyCal(true);updateCalendar(myCal); }} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>} 
+
+      {loggedIn ? (<Button variant="outlined" onClick={(e : any) => {setMyCal(false);updateCalendar(myCal); }} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>) 
+      : <Button disabled variant="outlined" onClick={(e : any) => {setMyCal(false);updateCalendar(myCal); }} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>}
+    
     {loggedIn ? 
     (<div><h4 style={{ margin: "auto" }} className='title'>Welcome {currentUser.name}</h4></div>) : <div><LoginForm setLoggedIn={setLoggedIn} retrieveUserByName={retrieveUserByName} /></div> }
   </Toolbar>
