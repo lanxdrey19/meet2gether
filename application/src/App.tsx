@@ -27,7 +27,8 @@ import {GetUserByName} from './ApiCalls/GetUserByName'
 
 function App() {
 
-  
+const [currentUser, setCurrentUser ] = useState();
+const [currentOrg, setCurrentOrg ] = useState();
 const retrieveUserByName = async (query : any) => {
 
   
@@ -36,10 +37,25 @@ const retrieveUserByName = async (query : any) => {
   const response = await GetUserByName(query);
   
 
-  const jsonResults = await response.json();
 
+
+
+  if (response.status > 300) {
+
+    alert('User can not be found...');
+
+
+  } else {
+  const jsonResults = await response.json();
   console.log(jsonResults);
-  //setCurrentAisle(jsonResults);
+  setCurrentUser(jsonResults);
+  setLoggedIn(true);
+  const response2 = await GetOrganisations();
+  const jsonResults2 = await response2.json();
+  setCurrentOrg(jsonResults2);
+
+  }
+
   
 
 }
