@@ -25,12 +25,15 @@ import LoginForm from './LoginForm'
 import {GetOrganisations} from './ApiCalls/GetOrganisations'
 import {GetUserByName} from './ApiCalls/GetUserByName'
 import {CreateUser} from './ApiCalls/CreateUser'
+import {AddEvent} from './ApiCalls/AddEvent'
+import {DeleteEvent} from './ApiCalls/DeleteEvent'
 import DataInitialiser from './DataInitialiser';
 import OrgInitialiser from './OrgInitialiser';
 function App() {
 
 const [currentUser, setCurrentUser ] = useState(DataInitialiser);
 const [currentOrg, setCurrentOrg ] = useState(OrgInitialiser);
+
 const retrieveUserByName = async (query : any) => {
 
   
@@ -85,7 +88,7 @@ const createUser = async (query : any) => {
 
 }
 
-  const handleDateSelect = (selectInfo : any) => {
+  const handleDateSelect = async (selectInfo : any) => {
     let title = prompt('Please enter a new title for your event')
     let calendarApi = selectInfo.view.calendar
 
@@ -93,12 +96,51 @@ const createUser = async (query : any) => {
 
     if (title) {
       calendarApi.addEvent({
-        id: createEventId(),
+      
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         allDay: selectInfo.allDay
       })
+
+      
+      var currentUserId = currentUser._id;
+      
+      const response = await AddEvent(selectInfo.startStr,selectInfo.endStr, currentUserId ,title);
+
+      if (response.status > 300) {
+
+        alert('Creation of event failed');
+    
+    
+      } else {
+     
+    
+      alert('Creation of event was successful');
+
+      const userDetails = await GetUserByName(currentUser.name);
+  
+
+
+
+
+  if (userDetails.status > 300) {
+
+    alert('User can not be found...');
+
+
+  } else {
+  const userJson = await userDetails.json();
+  setCurrentUser(userJson);
+  const organisationDetails = await GetOrganisations();
+  const organisationDetailJson = await organisationDetails.json();
+  setCurrentOrg(organisationDetailJson[0]);
+
+  }
+    
+      }
+
+
     }
   }
 

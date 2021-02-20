@@ -1,4 +1,5 @@
 export default {
     name: "name",
-    events: []
+    events: [],
+    _id: "123"
 }

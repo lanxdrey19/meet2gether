@@ -195,7 +195,7 @@ router.patch('/addevent/:orgId',async(req,res) => {
     const newEvent =  new UserEvent ({
                 title: req.body.title,
                 start: req.body.start,
-                endTime: req.body.end,
+                end: req.body.end,
     });
 
     
@@ -222,8 +222,8 @@ router.patch('/addevent/:orgId',async(req,res) => {
     
     const newOrgEvent =  new OrgEvent ({
         title: memberName,
-        startTime: req.body.start,
-        endTime: req.body.end,
+        start: req.body.start,
+        end: req.body.end,
     });
 
     tempEventsArray.push(newOrgEvent);

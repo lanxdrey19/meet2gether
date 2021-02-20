@@ -25,7 +25,7 @@ return (
             height="auto"
         plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
         droppable={true}
-        editable={true}
+        //editable={true}
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
