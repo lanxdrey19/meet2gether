@@ -305,13 +305,16 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
 
     var didDelete2 = false;
 
-    for (var k = 0 ; k < existingOrgEventsLength ; k++ ) {
+    for (var k = 0 ; k <  existingOrgEventsLength ; k++ ) {
 
+        
         if ( (existingOrgEvents[k].start.toString().toLowerCase().trim() === memberEventStartTime.toString().toLowerCase().trim() ) 
         
         &&  (existingOrgEvents[k].end.toString().toLowerCase().trim() === memberEventEndTime.toString().toLowerCase().trim() ) 
         
-        && !didDelete2 ) {
+        && !didDelete2 )
+        
+        {
 
             didDelete2 = true;
 
@@ -326,9 +329,6 @@ router.patch('/deleteevent/:orgId',async(req,res) => {
     if (!didDelete2) {
         throw new Error('could not find organisation event');
     }
-
-
-    
         
         const organisation = await Organisation.updateOne(
             {_id: req.params.orgId},

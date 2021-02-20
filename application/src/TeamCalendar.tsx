@@ -25,12 +25,13 @@ return (
             height="auto"
         plugins={[ dayGridPlugin,timeGridPlugin,interactionPlugin ]}
         droppable={true}
-        editable={true}
+        //editable={true}
         //selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
-        eventBackgroundColor='#C9CDF3'
-        eventBorderColor='#C9CDF3'
+        eventBackgroundColor='#009CBD'
+        eventBorderColor='#009CBD'
+        eventColor='#009CBD'
         initialView="dayGridMonth"
         events={props.currentOrgEvents}
         headerToolbar={{

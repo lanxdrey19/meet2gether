@@ -118,25 +118,6 @@ const createUser = async (query : any) => {
     
       alert('Creation of event was successful');
 
-      const userDetails = await GetUserByName(currentUser.name);
-  
-
-
-
-
-  if (userDetails.status > 300) {
-
-    alert('User can not be found...');
-
-
-  } else {
-  const userJson = await userDetails.json();
-  setCurrentUser(userJson);
-  const organisationDetails = await GetOrganisations();
-  const organisationDetailJson = await organisationDetails.json();
-  setCurrentOrg(organisationDetailJson[0]);
-
-  }
     
       }
 
@@ -144,11 +125,46 @@ const createUser = async (query : any) => {
     }
   }
 
-  const handleEventClick = (clickInfo : any) => {
+  const handleEventClick = async (clickInfo : any) => {
 
   if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`))
   {
-    clickInfo.event.remove()
+    clickInfo.event.remove();
+    console.log(clickInfo.event);
+    console.log(clickInfo.event._def.extendedProps._id);
+    
+    const response = await DeleteEvent(currentUser._id,clickInfo.event._def.extendedProps._id);
+
+    if (response.status > 300) {
+
+
+
+
+    const userDetails = await GetUserByName(currentUser.name);
+      const userJson = await userDetails.json();
+      setCurrentUser(userJson);
+
+      alert('Deletion of event failed');
+  
+  
+    } else {
+   
+  
+    alert('Deletion of event was successful');
+
+    const organisationDetails = await GetOrganisations();
+    const organisationDetailJson = await organisationDetails.json();
+    setCurrentOrg(organisationDetailJson[0]);
+
+    const userDetails = await GetUserByName(currentUser.name);
+      const userJson = await userDetails.json();
+      setCurrentUser(userJson);
+
+    
+    }
+    
+    
+
   }
 
   }
@@ -164,26 +180,32 @@ const createUser = async (query : any) => {
 
   const handleEventDrop = (eventDropInfo: any) => {
     
+    
     eventDropInfo.event.setProp('backgroundColor', '#5300AF');
     eventDropInfo.event.setProp('borderColor', '#5300AF');
+    
   }
 
   const handleEventDragStart = (info : any) => {
     
     info.event.setProp('backgroundColor', '#5300AF');
     info.event.setProp('borderColor', '#5300AF');
+    
   }
 
   const handleEventDragStop = (info : any) => {
     
     info.event.setProp('backgroundColor', '#5300AF');
     info.event.setProp('borderColor', '#5300AF');
+    
   }
 
   const handleEventMouseLeave = (mouseEnterInfo : any) => {
     
+    
     mouseEnterInfo.event.setProp('backgroundColor', '#5300AF');
     mouseEnterInfo.event.setProp('borderColor', '#5300AF');
+    
   }
 
   const [myCal, setMyCal ] = useState(false);
@@ -198,6 +220,23 @@ const createUser = async (query : any) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const updateCalendar = async (info : any) => {
+    if (info === true) {
+
+      const organisationDetails = await GetOrganisations();
+    const organisationDetailJson = await organisationDetails.json();
+    setCurrentOrg(organisationDetailJson[0]);
+  
+
+    } else {
+
+      const userDetails = await GetUserByName(currentUser.name);
+      const userJson = await userDetails.json();
+      setCurrentUser(userJson);
+
+    }
   };
 
   return (
@@ -224,8 +263,8 @@ const createUser = async (query : any) => {
     <Typography variant="h6" style={{ marginRight: "auto" }} >
       Meet2Gether
     </Typography>
-    <Button onClick={(e : any) => setMyCal(true)} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>
-    <Button onClick={(e : any) => setMyCal(false)} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>
+    <Button onClick={(e : any) => {setMyCal(true);updateCalendar(myCal); }} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>
+    <Button onClick={(e : any) => {setMyCal(false);updateCalendar(myCal); }} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>
     {loggedIn ? 
     (<div><h4 style={{ margin: "auto" }} className='title'>Welcome {currentUser.name}</h4></div>) : <div><LoginForm setLoggedIn={setLoggedIn} retrieveUserByName={retrieveUserByName} /></div> }
   </Toolbar>
@@ -234,6 +273,7 @@ const createUser = async (query : any) => {
 
 { myCal && loggedIn ? (
   <div>
+    
     <MemberCalendar handleDateSelect={handleDateSelect}
         handleEventClick={handleEventClick}
         handleEventMouseEnter={handleEventMouseEnter}

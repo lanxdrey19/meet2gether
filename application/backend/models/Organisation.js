@@ -47,11 +47,11 @@ const orgEventSchema = mongoose.Schema({
     },
     backgroundColor: {
         type:String,
-        default:"#5300AF"
+        default:"#009CBD"
     },
     outlineColor: {
         type:String,
-        default:"#5300AF"
+        default:"#009CBD"
     }
 
 });

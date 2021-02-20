@@ -7,7 +7,7 @@ const urlBeginning = 'http://localhost:3001/organisation/deleteevent/';
 
 
 
-export async function DeleteEvent(props: any,props2:any) {
+export async function DeleteEvent(props: any,props2: any) {
 
     const response = await GetOrganisations();
     const jsonResults = await response.json();
@@ -24,8 +24,8 @@ export async function DeleteEvent(props: any,props2:any) {
     },
 
     body: JSON.stringify({
-        memberId: props.memberId.toString(),
-        memberEventId: props.memberEventId.toString(),
+        memberId: props.toString(),
+        memberEventId: props2.toString()
 
      })    
     })
