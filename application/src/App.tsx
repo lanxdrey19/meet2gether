@@ -20,6 +20,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { createEventId } from './EventId'
 import MemberCalendar from './MemberCalendar'
 import TeamCalendar from './TeamCalendar'
+import LoginBtn from './LoginBtn'
+import LoginForm from './LoginForm'
 
 function App() {
 
@@ -123,7 +125,7 @@ function App() {
     <Button onClick={(e : any) => setMyCal(true)} color="inherit" style={{ marginRight: "10%" }}>My Calendar</Button>
     <Button onClick={(e : any) => setMyCal(false)} color="inherit" style={{ marginRight: "30%" }}>Team Calendar</Button>
     {loggedIn ? 
-    (<div><h4 style={{ margin: "auto" }} className='title'>Welcome User</h4></div>) : <div><Button onClick={(e : any) => setLoggedIn(true)} color="inherit" style={{ margin: "auto" }}>Login</Button></div> }
+    (<div><h4 style={{ margin: "auto" }} className='title'>Welcome User</h4></div>) : <div><LoginForm setLoggedIn={setLoggedIn} /></div> }
   </Toolbar>
 </AppBar>
 
