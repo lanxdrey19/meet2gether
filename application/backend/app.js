@@ -30,4 +30,8 @@ app.get('/',(req,res) => {
     res.send('on home');
    });
 
+   app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
+})
+
 app.listen(PORT , console.log(`Server is starting at ${PORT}`));
