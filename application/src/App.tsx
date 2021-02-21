@@ -37,8 +37,6 @@ const [currentOrg, setCurrentOrg ] = useState(OrgInitialiser);
 const retrieveUserByName = async (query : any) => {
 
   
-  console.log(query)
-  
   const response = await GetUserByName(query);
   
 
@@ -56,7 +54,7 @@ const retrieveUserByName = async (query : any) => {
   setLoggedIn(true);
   const response2 = await GetOrganisations();
   const jsonResults2 = await response2.json();
-  console.log(jsonResults2[0].orgEvents)
+
   setCurrentOrg(jsonResults2[0]);
 
   }
@@ -130,8 +128,7 @@ const createUser = async (query : any) => {
   if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`))
   {
     clickInfo.event.remove();
-    console.log(clickInfo.event);
-    console.log(clickInfo.event._def.extendedProps._id);
+
     
     const response = await DeleteEvent(currentUser._id,clickInfo.event._def.extendedProps._id);
 
