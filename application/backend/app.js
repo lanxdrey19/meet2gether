@@ -20,7 +20,8 @@ app.use('/organisation',organisationRoute);
 
 if (process.env.NODE_ENV === 'production' ) {
 
-    app.use(express.static('../build'));
+    //app.use(express.static('../build'));
+    app.use(path_join(__dirname, '..build'));
 
 }
 
