@@ -258,6 +258,7 @@ const createUser = async (query : any) => {
 
         <MenuItem onClick={(e : any) => { setLoggedIn(false);handleClose(); }} >Logout</MenuItem>
   
+  
       </Menu>
     
     <Typography variant="h6" style={{ marginRight: "auto" }} >
