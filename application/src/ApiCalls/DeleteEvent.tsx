@@ -2,7 +2,7 @@ import {GetOrganisations} from '../ApiCalls/GetOrganisations'
 
 
 
-const urlBeginning = 'http://localhost:3001/organisation/deleteevent/';
+const urlBeginning = 'https://meet2gether.herokuapp.com/organisation/deleteevent/';
 
 
 

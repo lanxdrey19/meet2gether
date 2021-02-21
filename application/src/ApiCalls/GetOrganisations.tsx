@@ -1,4 +1,4 @@
-const urlBeginning = 'http://localhost:3001/organisation/';
+const urlBeginning = 'https://meet2gether.herokuapp.com/organisation/';
 
 
 
