@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd .. && npm run build",
-    "install-client":"cd .. && npm install",
+    "build": "cd application && npm run build",
+    "install-client":"cd application && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
     "start": "nodemon app.js"
   },
