@@ -104,4 +104,8 @@ dist
 .tern-port
 
 # No Modules
-mode_modules
+node_modules/
+.env
+*.orig
+.idea/
+.vscode/
