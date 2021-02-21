@@ -4,6 +4,9 @@
   "description": "",
   "main": "application/backend/app.js",
   "scripts": {
+    "build": "cd application && npm run build",
+    "install-client":"cd application && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
     "start": "nodemon app.js"
   },
   "author": "",
