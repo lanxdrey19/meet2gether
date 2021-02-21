@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cd application && npm run build",
     "install-client":"cd application && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
+    "heroku-postbuild": "cd application && npm run install-client && npm run build",
     "start": "nodemon application/backend/app.js"
   },
   "author": "",
