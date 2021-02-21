@@ -1,5 +1,6 @@
 const express= require('express');
-var cors = require('cors')
+var cors = require('cors');
+var path = require('path');
 const app = express();
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3001
@@ -21,7 +22,7 @@ app.use('/organisation',organisationRoute);
 if (process.env.NODE_ENV === 'production' ) {
 
     //app.use(express.static('../build'));
-    app.use(path_join(__dirname, '..build'));
+    app.use(express.static(path.join(__dirname, '..build')));
 
 }
 
