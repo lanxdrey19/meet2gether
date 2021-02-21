@@ -26,10 +26,6 @@ if (process.env.NODE_ENV === 'production' ) {
 
 }
 
-app.get('/',(req,res) => {
-    res.send('on home');
-   });
-
    app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, "application", "build", "index.html"))
 })
